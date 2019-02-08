@@ -1,0 +1,96 @@
+<div class="row">
+    <h2>Register</h2>
+</div>
+<form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !firstName.valid }">
+                <label for="firstName">Name</label>
+                <input type="text" class="form-control" name="firstName" [(ngModel)]="model.firstName" #firstName="ngModel" required pattern="[a-zA-Z][a-zA-Z ]+"
+                />
+                <div *ngIf="f.submitted && !firstName.valid" class="help-block">Name is required</div>
+                <div *ngIf="firstName.errors && firstName.errors?.pattern" class="help-block">Name is Invalid</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+                <label for="username">User Name</label>
+                <input type="text" class="form-control" name="username" [(ngModel)]="model.username" #username="ngModel" required />
+                <div *ngIf="f.submitted && !username.valid" class="help-block">Username is required</div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" name="password" [(ngModel)]="model.password" #password="ngModel" required 
+                 minlength="8" pattern="[a-zA-Z0-9\s]+" />
+                <div *ngIf="f.submitted && password.errors?.required" class="help-block">Password is required</div>
+                <div *ngIf="password.errors?.minlength" class="help-block">
+                    Password should be minimum of 8 characters
+                </div>
+                <div *ngIf="password.errors && password.errors?.pattern" class="help-block">
+                    Password can only be alphanumeric
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !cnfpassword.valid }">
+                <label for="cnfpassword">Confirm Password</label>
+                <input type="password" class="form-control" name="cnfpassword" [(ngModel)]="model.cnfpassword" #cnfpassword="ngModel"
+                    required validateEqual="password" />
+                <div *ngIf="model.cnfpassword != model.password" class="help-block">
+                    Passwords did not match
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" name="email" [(ngModel)]="model.email" #email="ngModel" required pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                />
+                <div *ngIf="f.submitted && !email.valid" class="help-block">Email is required</div>
+                <div *ngIf="email.errors && email.errors?.pattern" class="help-block">
+                    Email is invalid
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-6">
+            <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !mobile.valid }">
+                <label for="mobile">Mobile Number</label>
+                <input type="text" class="form-control" name="mobile" [(ngModel)]="model.mobile" #mobile="ngModel" required minlength="10"
+                    maxlength="10" pattern="[0-9]*" />
+                <div *ngIf="f.submitted && !mobile.valid" class="help-block">Mobile Number is required</div>
+                <div *ngIf="mobile.errors && (mobile.errors?.pattern || mobile.errors?.minlength || mobile.errors?.maxlength)" class="help-block">
+                    Mobile Number is invalid
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group" [ngClass]="{ 'has-error': f.submitted && !address.valid }">
+        <label for="address">Address</label>
+        <textarea class="form-control" name="address" [(ngModel)]="model.address" #address="ngModel" required
+        maxlength="30"
+        ></textarea>
+        <div *ngIf="f.submitted && !address.valid" class="help-block">Address is required</div>
+    </div>
+
+
+    <div class="form-group">
+        <button [disabled]="loading" class="btn btn-primary">Register</button>
+        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+        />
+        <a [routerLink]="['/login']" class="btn btn-link">Cancel</a>
+    </div>
+
+</form>
